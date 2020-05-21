@@ -49,7 +49,7 @@ function getMass(matrix, i, j) {
   console.log('asteroid group: ', visited);
 
   visited.forEach((pos) => {
-    const [x, y] = pos.split('');
+    const [x, y] = pos.split(':');
     matrix[parseInt(x)][parseInt(y)] = 0;
   });
 
