@@ -4,7 +4,12 @@ function asteroidsMass(params) {
   for (let i = 0; i < matrix.length; i++) {
     for (let j = 0; j < matrix[i].length; j++) {
       if (matrix[i][j] === 0) continue;
-      res.push(getMass(matrix, i, j));
+      const { sum, visited } = getMass(matrix, i, j);
+      visited.forEach((pos) => {
+        const [x, y] = pos.split(':');
+        matrix[parseInt(x)][parseInt(y)] = 0;
+      });
+      res.push(sum);
     }
   }
 
@@ -46,14 +51,7 @@ function getMass(matrix, i, j) {
     return sum + matrix[parseInt(x)][parseInt(y)];
   }, 0);
 
-  console.log('asteroid group: ', visited);
-
-  visited.forEach((pos) => {
-    const [x, y] = pos.split(':');
-    matrix[parseInt(x)][parseInt(y)] = 0;
-  });
-
-  return sum;
+  return { sum, visited };
 }
 
 module.exports = asteroidsMass;
@@ -91,3 +89,17 @@ const massSpace = [
 ];
 
 console.log(asteroidsMass(massSpace));
+
+const massSpace2 = [
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 9, 4],
+  [0, 0, 0, 6, 0, 0, 0, 9, 4],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 7],
+  [0, 0, 0, 0, 0, 0, 4, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 9],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0],
+];
+
+console.log(asteroidsMass(massSpace2));
