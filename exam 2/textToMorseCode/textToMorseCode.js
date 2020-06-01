@@ -25,19 +25,19 @@ const DICT1 = {
   x: '-..-',
   y: '-.--',
   z: '--..',
-  ' ': ' '
+  ' ': ' ',
 };
 
 const DICT2 = {
   '.': '1',
   '-': '111',
-  ' ': ' '
+  ' ': ' ',
 };
 
 function textToMorseCode(str) {
   const list = str.split('');
-  const translated = list.map(e => DICT1[e]);
-  const converted = translated.map(e => e.split(''));
+  const translated = list.map((e) => DICT1[e]);
+  const converted = translated.map((e) => e.split(''));
   const converted2 = converted.map((list, i) => {
     let join = '';
     for (let i = 0; i < list.length; i++) {
@@ -61,6 +61,7 @@ function textToMorseCode(str) {
     }
   }
   console.log(res);
+  return res;
 }
 
 module.exports = textToMorseCode;

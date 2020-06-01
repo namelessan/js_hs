@@ -16,6 +16,20 @@ const printWithAlternatePauses = async (data, sTime, lTime) => {
   }
 };
 
+// function printWithAlternatePauses(data, sTime, lTime) {
+//   for (let i = 0; i < data.length; i++) {
+//     const row = data[i];
+//     setTimeout(async () => {
+//       for (let j = 0; j < row.length; j++) {
+//         const e = row[j];
+//         setTimeout(() => {
+//           console.log(e);
+//         }, sTime * j);
+//       }
+//     }, lTime * i);
+//   }
+// }
+
 let data = [
   [1, 2, 3],
   ['H', 'T', 'T', 'P', 'S'],
