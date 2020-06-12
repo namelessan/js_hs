@@ -1,0 +1,23 @@
+{
+  "name": "final_js_project",
+  "version": "1.0.0",
+  "description": "a photo map",
+  "main": "index.js",
+  "dependencies": {
+    "electron": "^9.0.0",
+    "electron-reload": "^1.5.0",
+    "filesize": "^6.1.0",
+    "node-geocoder": "^3.27.0"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "exif": "^0.6.0",
+    "lodash": "^4.17.15"
+  },
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "An pham",
+  "license": "ISC"
+}

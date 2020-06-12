@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Photo map</title>
+    <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+    <!-- <meta
+      http-equiv="Content-Security-Policy"
+      content="script-src 'self' 'unsafe-inline';"
+    /> -->
+    <!-- <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com "
+    /> -->
+
+    <!-- Main CSS file -->
+    <!-- Leaflet CDN -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+      integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+      integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+      crossorigin=""
+    ></script>
+    <!-- Bootstrap CDN -->
+    <!-- CSS only -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+      integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+      integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+      integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="./css/main.css" />
+  </head>
+  <body>
+    <div>
+      <header>
+        <div class="container my-4 d-flex flex-wrap">
+          <div class="p-2">
+            <img
+              src="./assets/imgs/angkor_wat.jpg"
+              alt=""
+              class="image-item"
+              data-toggle="modal"
+              data-target="#image-modal"
+              onclick="onClickImage(event)"
+            />
+          </div>
+          <div class="p-2">
+            <img
+              src="./assets/imgs/corcovado.jpg"
+              alt=""
+              class="image-item"
+              data-toggle="modal"
+              data-target="#image-modal"
+              onclick="onClickImage(event)"
+            />
+          </div>
+          <div class="p-2">
+            <img
+              src="./assets/imgs/eiffel_tower.jpg"
+              alt=""
+              class="image-item"
+              data-toggle="modal"
+              data-target="#image-modal"
+              onclick="onClickImage(event)"
+            />
+          </div>
+          <div class="p-2">
+            <img
+              src="./assets/imgs/pisa_tower.jpg"
+              alt=""
+              class="image-item"
+              data-toggle="modal"
+              data-target="#image-modal"
+              onclick="onClickImage(event)"
+            />
+          </div>
+          <div class="p-2">
+            <img
+              src="./assets/imgs/sphinx.jpg"
+              alt=""
+              class="image-item"
+              data-toggle="modal"
+              data-target="#image-modal"
+              onclick="onClickImage(event)"
+            />
+          </div>
+          <div class="p-2">
+            <img
+              src="./assets/imgs/st_isaac_cathedral.jpg"
+              alt=""
+              class="image-item"
+              data-toggle="modal"
+              data-target="#image-modal"
+              onclick="onClickImage(event)"
+            />
+          </div>
+          <div class="p-2">
+            <img
+              src="./assets/imgs/statue_of_liberty.jpg"
+              alt=""
+              class="image-item"
+              data-toggle="modal"
+              data-target="#image-modal"
+              onclick="onClickImage(event)"
+            />
+          </div>
+          <div class="p-2">
+            <img
+              src="./assets/imgs/taj_mahal.jpg"
+              alt=""
+              class="image-item"
+              data-toggle="modal"
+              data-target="#image-modal"
+              onclick="onClickImage(event)"
+            />
+          </div>
+          <div class="p-2">
+            <img
+              src="./assets/imgs/ho chi minh 1.jpg"
+              alt=""
+              class="image-item"
+              data-toggle="modal"
+              data-target="#image-modal"
+              onclick="onClickImage(event)"
+            />
+          </div>
+          <div class="p-2">
+            <img
+              src="./assets/imgs/ho chi minh 2.jpg"
+              alt=""
+              class="image-item"
+              data-toggle="modal"
+              data-target="#image-modal"
+              onclick="onClickImage(event)"
+            />
+          </div>
+        </div>
+      </header>
+      <div id="image-modal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Photo detail</h3>
+            <span class="close">&times;</span>
+          </div>
+          <div class="modal-body">
+            <div class="detail mb-3">
+              <div class="detail__date"></div>
+              <div class="detail__location"></div>
+            </div>
+            <div class="map-container little-map">
+              <div id="mapid"></div>
+            </div>
+            <div class="d-flex justify-content-end">
+              <a class="view-more">
+                View more
+              </a>
+            </div>
+            <div class="image-more-detail">
+              <div class="more-detail__title"></div>
+              <div class="more-detail__size"></div>
+              <div class="more-detail__resolution"></div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary">OK</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="./js/main.js"></script>
+  </body>
+</html>
