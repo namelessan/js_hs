@@ -7,6 +7,7 @@ const _ = require('lodash');
 const GeoCoder = require('node-geocoder');
 const fs = require('fs');
 const fsize = require('filesize');
+const fetch = require('node-fetch');
 
 const modal = document.getElementById('image-modal');
 const cache = {};
@@ -43,13 +44,13 @@ async function onClickImage(e) {
   const src = e.target.attributes.src.value;
   if (!cache[src]) {
     const exif = await readImage(path.resolve(src));
-    console.log(exif);
-    cache[src] = exif;
+    const gps = exif.gps;
+    if (!_.isEmpty(gps)) setMarker(gps);
+    const currentImg = await setCurrentImg(exif, src);
+    cache[src] = currentImg;
   }
 
-  const gps = cache[src].gps;
-  if (!_.isEmpty(gps)) setMarker(gps);
-  setCurrentImg(cache[src], src);
+  currentImg = cache[src];
   updateDetail();
   showModal();
 }
@@ -62,24 +63,30 @@ function hideModal() {
   modal.style.display = 'none';
 }
 
-function setCurrentImg({ image, exif, gps }, src) {
+async function setCurrentImg({ image, exif, gps }, src) {
   const { GPSLatitude, GPSLatitudeRef, GPSLongitude, GPSLongitudeRef } = gps;
   const latitude = convertToDegreeDecial(GPSLatitude, GPSLatitudeRef);
   const longitude = convertToDegreeDecial(GPSLongitude, GPSLongitudeRef);
-  currentImg.latLng = [latitude, longitude];
+  const address = await getLocation(latitude, longitude);
+  console.log('location of photo: ', address[0].formattedAddress);
+
+  const location = address[0].formattedAddress;
 
   const { CreateDate } = exif;
-  currentImg.createDate = CreateDate;
+  const createDate = CreateDate ? CreateDate : '';
 
   const title = src.split('\\').pop().split('/').pop();
-  currentImg.title = title;
 
   const { ExifImageWidth, ExifImageHeight } = exif;
-  currentImg.resolution = `${ExifImageWidth}x${ExifImageHeight}`;
+  const resolution =
+    ExifImageWidth && ExifImageHeight
+      ? `${ExifImageWidth}x${ExifImageHeight}`
+      : '';
 
   const stats = fs.statSync(src);
   const filesize = fsize(stats.size, { round: 0 });
-  currentImg.size = filesize;
+  const size = filesize;
+  return { location, createDate, title, resolution, size };
 }
 
 function updateDetail() {
@@ -91,24 +98,28 @@ function updateDetail() {
     'more-detail__resolution'
   )[0];
 
-  const address = getLocation(currentImg.latLng);
-
   date.innerHTML = `Date: ${currentImg.createDate}`;
-  location.innerHTML = `Location: ${address}`;
+  location.innerHTML = `Location: ${currentImg.location}`;
   title.innerHTML = `Title: ${currentImg.title}`;
   size.innerHTML = `Size: ${currentImg.size}`;
   resolution.innerHTML = `Resolution: ${currentImg.resolution}`;
 }
 
-async function getLocation(latLng) {
+async function getLocation(lat, lon) {
   const options = {
     provider: 'openstreetmap',
-    fetch: customFetchImplementation,
-    apiKey: 'YOUR_API_KEY', // for Mapquest, OpenCage, Google Premier
+    fetch: fetchGeoCode,
     formatter: null, // 'gpx', 'string', ..
+    language: 'en-US',
   };
   const geo = GeoCoder(options);
-  const location = await geo.reverse({ lat: latLng[0], lon: latLng[1] });
-  console.log(location);
+  let location;
+  location = await geo.reverse({ lat, lon });
   return location;
+}
+
+function fetchGeoCode(url, options) {
+  return fetch(url, {
+    ...options,
+  });
 }
