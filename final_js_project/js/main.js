@@ -13,6 +13,13 @@ const modal = document.getElementById('image-modal');
 const cache = {};
 let currentImg = {};
 
+// modal.onclick(function () {
+//   console.log('triggered after map loaded');
+//   setTimeout(() => {
+//     map.invalidateSize();
+//   }, 1);
+// });
+
 main();
 
 function main() {
@@ -44,13 +51,14 @@ async function onClickImage(e) {
   const src = e.target.attributes.src.value;
   if (!cache[src]) {
     const exif = await readImage(path.resolve(src));
-    const gps = exif.gps;
-    if (!_.isEmpty(gps)) setMarker(gps);
-    const currentImg = await setCurrentImg(exif, src);
-    cache[src] = currentImg;
+    const { gps } = exif;
+    const info = await setCurrentImg(exif, src);
+    cache[src] = { ...info, gps };
   }
 
   currentImg = cache[src];
+  const { gps } = currentImg;
+  if (!_.isEmpty(gps)) setMarker(gps);
   updateDetail();
   showModal();
 }
