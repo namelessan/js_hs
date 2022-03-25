@@ -4,7 +4,7 @@
   "description": "a photo map",
   "main": "index.js",
   "dependencies": {
-    "electron": "^9.0.0",
+    "electron": "^13.6.6",
     "electron-reload": "^1.5.0",
     "filesize": "^6.1.0",
     "node-geocoder": "^3.27.0"
